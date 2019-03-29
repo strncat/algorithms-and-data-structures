@@ -1,7 +1,7 @@
 //
 //  Permutations with STL
 //
-//  Created by Fatima Broom on 3/12/16.
+//  Created by FB on 3/12/16.
 //  Copyright © 2016 Fatima B. All rights reserved.
 //
 
