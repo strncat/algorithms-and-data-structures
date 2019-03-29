@@ -1,0 +1,13 @@
+#### Bit Manipulation ####
+- [x] Clear the n-right most bits
+- [x] Get, clear, set, update a bit i
+- [x] Clear bits from i to most significant bit inclusive
+- [x] Clear bits from 0 to i inclusive
+- [x] Isolate the least significant bit
+- [x] Clear the least significant bit
+- [x] Count the set bits
+- [x] Isolate the highest set bit
+- [x] Find fhe next power of two
+- [x] Reverse the bits of an unsgined int
+- [x] count the different bits between two nonnegative ints
+- [x] swap every pair of bits in an unsigned int
