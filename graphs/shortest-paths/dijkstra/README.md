@@ -7,6 +7,11 @@ This is my own implementation based on CLRS (https://mitpress.mit.edu/books/intr
 
 "The algorithm maintains a set S of vertices whose final shortest-path weights from the source s have already been determined. The algorithm repeatedly selects the vertex u in V - S with the minimum shortest-path estimate, adds u to S, and relaxes all edges leaving u"
 
+
+###Proof of Correctness##
+https://strncat.github.io/jekyll/update/2019/03/31/dijkstra.html
+
+
 ####Algorithm####
 * We initialize:
  * A visited array where each element is unvisited
