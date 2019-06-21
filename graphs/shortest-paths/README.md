@@ -1,0 +1,1 @@
+Algorithms Descriptions and Proofs in https://strncat.github.io
