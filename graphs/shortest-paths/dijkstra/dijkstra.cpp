@@ -139,10 +139,8 @@ void insert(graph *g, int x, int y, int weight) {
 void dijkstra(graph *g, int start) {
     // INIT DISTANCE ARRAY
     int distance[N];
-    int visited[N];
     for (int i = 1; i <= g->nvertices; i++) {
         distance[i] = INT_MAX;
-        visited[i] = 0;
     }
 
     // INIT MIN_HEAP AND INSERT START NODE
@@ -153,27 +151,31 @@ void dijkstra(graph *g, int start) {
 
     while (!empty(&h)) {
         int node = extract_min(&h);
-        visited[node] = 1; // WE WON'T CHECK THIS NODE EVER AGAIN
 
         edge *e = g->edges[node];
         while (e != NULL) {
-            if (!visited[e->y]) {
-                if (distance[e->y] > distance[node] + e->weight) {
-                    if (distance[e->y] == INT_MAX) { // FIRST TIME
-                        distance[e->y] = distance[node] + e->weight;
-                        insert(&h, e->y, distance[e->y]);
-                    } else {
-                        // KEY ALREADY EXIST, UPDATE ITS VALUE
-                        distance[e->y] = distance[node] + e->weight;
-                        decrease_key(&h, e->y, distance[e->y]);
-                    }
+            if (distance[e->y] > distance[node] + e->weight) {
+                if (distance[e->y] == INT_MAX) { // FIRST TIME
+                    distance[e->y] = distance[node] + e->weight;
+                    insert(&h, e->y, distance[e->y]);
+                } else {
+                    // KEY ALREADY EXIST, UPDATE ITS VALUE
+                    distance[e->y] = distance[node] + e->weight;
+                    decrease_key(&h, e->y, distance[e->y]);
                 }
             }
             e = e->next;
         }
     }
+    // matching example problem output
     for (int i = 1; i <= g->nvertices; i++) {
-        printf("%d ", distance[i]);
+        if (start != i) {
+            if (distance[i] == INT_MAX) {
+                printf("-1 ");
+            } else {
+                printf("%d ", distance[i]);
+            }
+        }
     }
     printf("\n");
 }
