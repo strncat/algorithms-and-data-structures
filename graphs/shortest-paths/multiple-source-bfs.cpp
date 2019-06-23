@@ -4,7 +4,7 @@
 //
 //  Created by FB on 6/20/19.
 //  Example Problem: https://www.spoj.com/problems/BITMAP/
-//  This is just Dijkstra!!!! but add multiple sources initially
+//  This is just BFS with multiple sources
 //
 
 #include <iostream>
@@ -17,43 +17,32 @@
 
 int R, C;
 char m[MAX][MAX];
-int distance[MAX][MAX];
 int dx[4] = {1 , 0 , -1 , 0};
 int dy[4] = {0 , 1 , 0 , -1};
 std::vector<std::pair<int,int>> sources;
 
-void dijkstra() {
-    std::priority_queue<std::pair<int,std::pair<int,int>>,
-    std::vector<std::pair<int, std::pair<int,int>>>,
-    std::greater<std::pair<int, std::pair<int,int>>>> q; // min priority queue
+void multi_bfs() {
+    std::queue<std::pair<int,int>> q;
+    int distance[R][C];
 
     // init distances to INF or INT_MAX for now
-    std::vector<std::vector<int>> distance(MAX, std::vector<int>(MAX));
     std::vector<std::vector<int>> visited(MAX, std::vector<int>(MAX));
     for (int i = 0; i < R; i++) {
         for (int j = 0; j < C; j++) {
-            distance[i][j] = INF;
             visited[i][j] = false;
         }
     }
 
     // all sources have distance 0
     for (int i = 0; i < sources.size(); i++) {
-        q.push({0, sources[i]});
+        q.push(sources[i]);
+        visited[sources[i].first][sources[i].second] = true;
         distance[sources[i].first][sources[i].second] = 0;
     }
 
     while (!q.empty()) {
-        std::pair<int,int> u = q.top().second;
-        int x = u.first, y = u.second;
+        int x = q.front().first, y = q.front().second;
         q.pop();
-
-        // In Dijkstra, we visit each node once
-        // but priority_queue doesn't support a decrease key
-        // operation, so we use a visited array
-
-        if (visited[x][y]) { continue; }
-        visited[x][y] = true;
 
         for (int k = 0; k < 4; k++) {
             int next_x = x + dx[k];
@@ -62,10 +51,11 @@ void dijkstra() {
                 continue;
             }
 
-            if (distance[next_x][next_y] > distance[x][y] + 1) {
-                distance[next_x][next_y] = distance[x][y] + 1;
-                q.push({distance[next_x][next_y], {next_x, next_y}});
-            }
+            if (visited[next_x][next_y]) { continue; }
+            visited[next_x][next_y] = true;
+
+            distance[next_x][next_y] = distance[x][y] + 1;
+            q.push({next_x, next_y});
         }
     }
 
@@ -98,7 +88,7 @@ int main() {
     while (tests--) {
         sources.clear();
         read_board();
-        dijkstra();
+        multi_bfs();
     }
     return 0;
 }
