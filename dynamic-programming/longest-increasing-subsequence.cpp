@@ -1,15 +1,14 @@
 //
-//  Longest Increasing Subsequence O(n^2)
-//  2014
+//  Longest Increasing Subsequence O(n^2) and O(nlogn)
+//  Practice: https://www.hackerrank.com/challenges/longest-increasing-subsequent/problem
+//  Description and Proof: https://strncat.github.io
 //
-/*
- 7 2 8 1 3 4 10 6 9 5
- // make a new array c where c[i] is the maximum increasing subsequence ending at a[i]
- // the c array for the above array would look like
- // 1 1 2 1 2 3 4 4 5 4
- */
+//
 
 #include <iostream>
+
+const int MAX = 1000111;
+const int INF = 1<<30;
 
 void print(int *a, int *p, int index) {
     if (index == -1) {
@@ -19,9 +18,8 @@ void print(int *a, int *p, int index) {
     printf("%d ", a[index]);
 }
 
-void longest_increasing_subsequence(int *a, int n) { /* O(n^2) */
+int longest_increasing_subsequence(int *a, int n) { // O(n^2)
     int c[n], p[n], max = 0, maxIndex = 0;
-
     // maximum subsequence ending at a[i] is initialy 1
     for (int i = 0; i < n; i++) {
         c[i] = 1;
@@ -40,11 +38,55 @@ void longest_increasing_subsequence(int *a, int n) { /* O(n^2) */
             maxIndex = i;
         }
     }
-    print(a, p, maxIndex);
+    //print(a, p, maxIndex); // if we need to reconstruct, we can use this
+    return max;
 }
 
+int longest_increasing_subsequence_fast(int *a, int n) { // O(nlogn)
+    int m[MAX];
+    m[0] = -INF;
+    for (int i = 0; i < n; i++) {
+        m[i + 1] = INF;
+    }
+
+    int k = 0; // keeps track of the length of the longest increasing subsequence found so far
+    for (int i = 0; i < n; i++) {
+        // in each iteration either a[i] > a[k] meaning we can extend the subsequence
+        if (a[i] > m[k]) {
+            m[++k] = a[i];
+        } else { // or a[i] < a[k] meaning we can update one of the previous subsequences to a better subsequence ending (for why this works check the link in the header)
+            // just a binary search
+            int first = 0, last = k;
+            while (last > first + 1) {
+                int mid = (first + last) / 2;
+                if (m[mid] < a[i]) {
+                    first = mid;
+                } else {
+                    last = mid;
+                }
+            }
+            m[last] = a[i];
+        }
+    }
+    return k;
+}
+
+
 int main() {
-    int a[10] = {7, 2, 8, 1, 3, 4, 10, 6, 9, 5};
-    longest_increasing_subsequence(a, 10);
-    return 0;
+    clock_t begin, end;
+    double time_spent;
+    begin = clock();
+    int n, a[MAX];
+    freopen("in.txt" , "r" , stdin);
+    freopen("out.txt" , "w" , stdout);
+
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &a[i]);
+    }
+    printf("%d\n", longest_increasing_subsequence(a, n));
+    printf("%d\n", longest_increasing_subsequence_fast(a, n));
+    end = clock();
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("%f", time_spent);
 }
