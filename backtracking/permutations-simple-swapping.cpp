@@ -12,6 +12,14 @@ abc acb  bac  bca  cba cab
  
 */
 
+#include <iostream>
+
+void swap(char *a, char *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
 void permute(char *s, int index) {
     if (s[index] == '\0') {
         printf("%s\n", s);
@@ -29,3 +37,4 @@ int main() {
     permute(s, 0);
     return 0;
 }
+

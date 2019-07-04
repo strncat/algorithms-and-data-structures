@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-const int MAX = 1000111;
+const int MAX = 10000;
 const int INF = 1<<30;
 
 void print(int *a, int *p, int index) {
@@ -44,11 +44,10 @@ int longest_increasing_subsequence(int *a, int n) { // O(n^2)
 
 int longest_increasing_subsequence_fast(int *a, int n) { // O(nlogn)
     int m[MAX];
-    m[0] = -INF;
     for (int i = 0; i < n; i++) {
-        m[i + 1] = INF;
+        m[i] = INF;
     }
-
+    m[0] = -INF;
     int k = 0; // keeps track of the length of the longest increasing subsequence found so far
     for (int i = 0; i < n; i++) {
         // in each iteration either a[i] > a[k] meaning we can extend the subsequence
@@ -71,14 +70,55 @@ int longest_increasing_subsequence_fast(int *a, int n) { // O(nlogn)
     return k;
 }
 
+// same code as the above but this tracks indices in m instead to make it possible to
+// reconstruct the sequence
+int longest_increasing_subsequence_fast_parent(int *a, int n) { // O(nlogn)
+    int m[MAX], p[MAX];
+    for (int i = 0; i < n; i++) {
+        m[i] = INF;
+        p[i] = -1;
+    }
+    m[0] = -1; m[1] = 0;
+    int k = 1;
+    for (int i = 1; i < n; i++) {
+        if (a[i] > a[m[k]]) { // extend the largest subsequence
+            k++;
+            m[k] = i;
+            p[m[k]] = m[k-1];
+        } else { // update a previous subsequence, binary search case
+            int first = 0, last = k;
+            while (last > first + 1) {
+                int mid = (first + last) / 2;
+                if (a[m[mid]] < a[i]) {
+                    first = mid;
+                } else {
+                    last = mid;
+                }
+            }
+            m[last] = i;
+            p[m[last]] = m[last-1];
+        }
+    }
+
+    // print sequence
+    //int index = m[k];
+    //while (index != -1) {
+    //    printf("%d\t", a[index]);
+    //    index = p[index];
+    //}
+    //printf("\n");
+
+    return k;
+}
+
 
 int main() {
-    clock_t begin, end;
-    double time_spent;
-    begin = clock();
+    //clock_t begin, end;
+    //double time_spent;
+    //begin = clock();
     int n, a[MAX];
     freopen("in.txt" , "r" , stdin);
-    freopen("out.txt" , "w" , stdout);
+    //freopen("out.txt" , "w" , stdout);
 
     scanf("%d", &n);
     for (int i = 0; i < n; i++) {
@@ -86,7 +126,9 @@ int main() {
     }
     printf("%d\n", longest_increasing_subsequence(a, n));
     printf("%d\n", longest_increasing_subsequence_fast(a, n));
-    end = clock();
-    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("%f", time_spent);
+    printf("%d\n", longest_increasing_subsequence_fast_parent(a, n));
+
+    //end = clock();
+    //time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    //printf("%f", time_spent);
 }
