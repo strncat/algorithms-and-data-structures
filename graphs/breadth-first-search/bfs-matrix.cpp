@@ -42,7 +42,6 @@ int bfs(int x, int y) {
             y = topy + dy[i];
             // out of range
             if (x < 0 || x >= n || y < 0 || y >= m) { continue; }
-
             if (visited[x][y] == false) {
                 visited[x][y] = true;
                 qx.push(x);

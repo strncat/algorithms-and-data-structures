@@ -1,10 +1,30 @@
 //
 // Implementation of Prim using a custom Minimum Heap
-// Prim is similar to Dijkstra, the only difference is the relaxation condition
-// In Dijkstra we care about the whole route, is this new route v>..>w better than what we have?
-// In Prim we only care about the edge that connects us to particular vertex w
 //
+//  Algorithm:
+//  We explore all the elements in the minimum heap until it's empty
+//  We pop a node v and mark it as visited.
+//  We look at all the unvisited neigbors of v. For each neigbor y:
+//  we check if edgeWeight[v->y] < distance[y]. Meaning, will this new edge (v,y) connect me to y in a cheaper way than the current edge?
+//  We add y to the minimum heap but If y already exists, then we need to decrease its value in the minimum heap. (look at the implementation details for more details)
 //
+//  Running Time
+//  Each EXTRACT-MIN operation takes O(lgV) time, the total time for all calls to EXTRACT-MIN is O(VlgV).
+// We look at each edge in Prim at most twice when visiting the unvisited neigbors therefore the runing time for looking at all edges is O(E)
+// "The DECREASE-KEY operation on the min-heap, which a binary min-heap supports in O(lgV) time"
+// The total time for Prim’s algorithm is O(VlgV + ElgV) = O(ElgV)"
+// By using Fibonacci heaps, Prim’s algorithm runs in time O(E + VlgV), which improves over the binary-heap implementation if |V| is much smaller than |E|
+
+//My implementation of decrease-key on a heap is slow because I do a linear search
+//to find the node and then call bubble up. I should at least maintain pointers
+//to the nodes in the heap so that I call bubble up right away without search.
+//In CRLS however, it is noted that "We can in fact achieve a running time of
+//O(Vlg(V) + E) by implementing the min-priority queue with a **Fibonacci heap**
+//(see Chapter 19). The amortized cost of each of the |V| EXTRACT-MIN operations
+//is O(lgV) , **and each DECREASE KEY call, of which there are at most |E|,
+//takes only O(1)** [huh!] amortized time. Historically, the development of
+//Fibonacci heaps was motivated by the observation that Dijkstra’s algorithm
+//typically makes many more DECREASE-KEY calls than EXTRACT-MIN calls,"
 
 #include <iostream>
 #include <queue>

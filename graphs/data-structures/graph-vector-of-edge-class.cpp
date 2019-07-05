@@ -33,12 +33,10 @@ void print(std::vector<std::vector<Edge>>& graph) {
 
 int main() {
     std::vector<std::vector<Edge>> graph(3); // or list
-
     graph[0].push_back(Edge(1,4));
     graph[1].push_back(Edge(0,4));
     graph[0].push_back(Edge(3,7));
     graph[2].push_back(Edge(1,2));
-
     print(graph);
     return 0;
 }

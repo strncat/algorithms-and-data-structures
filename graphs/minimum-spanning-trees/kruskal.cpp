@@ -1,7 +1,22 @@
 //
 //  Kruskal
-//  Reference: Algorithms I (Standord/Coursera)
-//  Also CLRS!
+//
+//  Description and Proof
+//  https://strncat.github.io/jekyll/update/2019/04/03/kruskal.html
+//
+//  Algorithm:
+//  - initialize V sets where the leader of each set is just the vertex itself.
+//  - initialize a set to hold the minimum spanning tree.
+//  - sort all edges in the graph
+//  - and we go through all edges in a loop
+//  - if both x and y are in different sets (they don't have the same leader) then
+//    we can add this edge to the MST and combine both sets
+//
+//  Runtime:
+//  - The time to make each in the begining is just O(V).
+//  - the time to sort the edges is O(ElgE)
+//  - We perform 2*E FIND-SET so that's O(Elg(V)) and (V-1) UNION operations in O(V).
+//  - The total time is then O(ElgE) = O(ElgV) which is similar to Prim
 //
 //  Practice Problem: https://www.hackerrank.com/challenges/kruskalmstrsub
 
