@@ -1,12 +1,8 @@
 //
-//  DFS - Depth First Search
+//  DFS - Depth First Search (with start/finish times)
 //
 //  Created by FB on 7/6/19.
 //  Copyright © 2019 FB. All rights reserved.
-//
-
-//
-//  DFS - vectors
 //
 
 #include <iostream>

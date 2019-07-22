@@ -1,58 +1,79 @@
 //
-//  detect a cycle in a directed graph
-//  just use a dfs with maintaining an extra stack/array to keep track of nodes
+//  Detect cycles in a directed graph
+//  Practice Problem: 11686 Pick up sticks
+//
+//  Created by FB on 7/12/19.
+//  Copyright © 2019 FB. All rights reserved.
 //
 
 #include <iostream>
 #include <vector>
+#include <stack>
 
-using std::vector;
-using std::pair;
+#define MAX 100000
+enum colors {black, gray, white};
 
-bool dfs(int i, vector<vector<int>> &adj, vector<bool> &visited, vector<bool> &stack) {
-    visited[i] = true; // mark visited
-    stack[i] = true; // put node on stack
+typedef std::vector<std::vector<int>> graph;
+bool cycle = false;
 
-    for (int j = 0; j < adj[i].size(); j++) {
-        if (stack[adj[i][j]]) {
-            return true; // cycle
-        }
-        if (!visited[adj[i][j]]) {
-            bool cycle = dfs(adj[i][j], adj, visited, stack);
-            if (cycle) { return true; }
+void dfs(graph& g, int v, int *color, std::stack<int> &ordered) {
+    color[v] = gray;
+    for (auto i = 0; i < g[v].size(); i++) {
+        int u = g[v][i];
+        if (color[u] == black) {
+            dfs(g, u, color, ordered);
+        } else if (color[u] == gray) {
+            // CYCLE
+            cycle = true;
         }
     }
-
-    stack[i] = false; // remove node from stack
-    return false;
+    color[v] = white;
+    ordered.push(v); // node is done, we can push it on the ordered stack
 }
 
-int acyclic(vector<vector<int> > &adj) {
-    vector<bool> visited;
-    vector<bool> stack;
-    for (int i = 0; i < adj.size(); i++) {
-        visited.push_back(false);
-        stack.push_back(false); // current stack/path we're taking
+void topological_sort(graph& g) {
+    std::stack<int> ordered;
+    int color[MAX] = {false}; // initially all black
+    // perform dfs until there are no more unvisited nodes
+    for(int i = 0; i < g.size(); i++) {
+        if (color[i] == black) { // first time
+            dfs(g, i, color, ordered);
+            if (cycle) { break; }
+        }
     }
 
-    for (int i = 0; i < adj.size(); i++) {
-        bool cycle = dfs(i, adj, visited, stack);
-        if (cycle) { return 1; }
+    if (cycle) {
+        printf("IMPOSSIBLE\n");
+    } else {
+        while (!ordered.empty()) {
+            printf("%d\n", ordered.top()+1);
+            ordered.pop();
+        }
     }
-    return 0;
 }
 
-int main() {
-    //freopen("2.in", "r", stdin);
+int main(int argc, const char * argv[]) {
+    //freopen("in.txt", "r", stdin);
+    int n, m;
 
-    size_t n, m;
-    std::cin >> n >> m;
-    vector<vector<int> > adj(n, vector<int>());
-    for (size_t i = 0; i < m; i++) {
-        int x, y;
-        std::cin >> x >> y;
-        adj[x - 1].push_back(y - 1);
+    while (scanf("%d %d", &n, &m)) {
+        if (n == 0 && m == 0) {
+            break;
+        }
+
+        graph g;
+        for (int i = 0; i < n; i++) {
+            g.push_back(std::vector<int>());
+        }
+
+        int u, v;
+        for (int i = 0; i < m; i++) {
+            scanf("%d %d", &u, &v);
+            u--; v--;
+            g[u].push_back(v);
+        }
+        cycle = false;
+        topological_sort(g);
     }
-    std::cout << acyclic(adj);
     return 0;
 }

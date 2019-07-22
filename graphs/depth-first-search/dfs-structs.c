@@ -1,6 +1,6 @@
 //
 // Simple DFS in C
-// with path finding example https://github.com/fbroom/competitive-programming/blob/master/hacker-rank/artificial-intelligence/a-star-search/pacman-dfs.cpp
+// with path finding example
 //
 
 #include <stdio.h>
@@ -54,10 +54,6 @@ void dfsRecursive(graph *g, int start, int *discovered) {
         }
         p = p->next;
     }
-}
-
-void tests() {
-    // TODO
 }
 
 int main() {

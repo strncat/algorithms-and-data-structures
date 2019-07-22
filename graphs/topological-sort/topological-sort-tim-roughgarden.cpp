@@ -1,15 +1,13 @@
 //
 // DFS (Topological Sort)
-// Reference: Algorithms - Stanford - Coursera
+// Reference: Couresera - Algorithms by Tim Roughgarden
 //
 
 #include <iostream>
 #include <stack>
 #include <vector>
 
-using std::vector;
-
-void dfs(vector<vector<int>>& g, int v,
+void dfs(std::vector<std::vector<int>>& g, int v,
          bool *visited, int *labels, int *currentLabel) {
     visited[v] = true;
     for (auto i = g[v].begin(); i != g[v].end(); i++) {
@@ -23,7 +21,7 @@ void dfs(vector<vector<int>>& g, int v,
 }
 
 
-void topological_sort(vector<vector<int>>& g) {
+void topological_sort(std::vector<std::vector<int>>& g) {
     int labels[g.size()];
     bool visited[g.size()];
     int currentLabel = (int)g.size()-1; // this is the key to the algorithm
@@ -45,7 +43,7 @@ void topological_sort(vector<vector<int>>& g) {
 }
 
 int main() {
-    vector<vector<int>> graph(4);
+    std::vector<std::vector<int>> graph(4);
     graph[0].push_back(2);
     graph[3].push_back(0);
     graph[3].push_back(1);

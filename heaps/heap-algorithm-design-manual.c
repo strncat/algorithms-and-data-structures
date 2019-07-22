@@ -85,6 +85,32 @@ void pq_print(heap *q) {
     printf("\n");
 }
 
+// heapSort related
+void make_heap(heap *q, int *s, int n) {
+    q->n = n;
+    for (int i = 0; i < n; i++) {
+        q->buffer[i+1] = s[i];
+    }
+    for (int i = q->n; i >= 1; i--) {
+        bubble_down(q, i);
+    }
+}
+
+void heap_sort(int *s, int n) { /* O(nlogn) */
+    heap q;
+    make_heap(&q, s, n);
+    for (int i = 0; i < n; i++) {
+        s[i] = extract_max(&q);
+    }
+}
+
+void print(int *a, int n) {
+    for(int i = 0; i < 6; i++) {
+        printf("%d ", a[i]);
+    }
+    printf("\n");
+}
+
 int main() {
     heap *q = malloc(sizeof(heap));
 
@@ -105,5 +131,11 @@ int main() {
         printf("%d ", extract_max(q));
     }
     printf("\n");
+
+    // HeapSort Example
+    int s[6] = {5, -2, 10, 6, 20, -10};
+    print(s, 6);
+    heap_sort(s, 6);
+    print(s, 6);
     return 0;
 }
