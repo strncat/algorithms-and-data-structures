@@ -2,7 +2,23 @@
 //  list.cpp
 //
 
-#include "list.h"
+#include <iostream>
+
+class Node {
+public:
+    std::string data;
+    Node *next;
+    Node(std::string s);
+};
+
+class List {
+public:
+    Node *head;
+    void printList();
+    void insertAtFront(std::string s);
+    void deleteFromList(std::string s);
+    Node* search(std::string);
+};
 
 Node::Node(std::string s) {
     data = s;
@@ -54,3 +70,23 @@ Node* List::search(std::string d) {
     }
     return current;
 };
+
+int main() {
+
+    List l;
+
+    l.insertAtFront("nemo");
+    l.insertAtFront(" ");
+    l.insertAtFront("world");
+    l.insertAtFront(" ");
+    l.insertAtFront("hello");
+    l.printList();
+
+    printf("find nemo:\n");
+    Node *s = l.search("nemo");
+    if (s) { std::cout << s->data << std::endl; }
+
+    printf("delete nemo:\n");
+    l.deleteFromList("nemo");
+    l.printList();
+}

@@ -2,8 +2,14 @@
 //  linked-list.c
 //
 
-#include "linked-list.h"
+#include <iostream>
 #include <stdlib.h>
+
+typedef struct list {
+    int data;
+    struct list *next;
+} list;
+
 
 void printList(list *head) {
     while (head != NULL) {
@@ -67,4 +73,26 @@ list* search(list *head, int d) {
         }
     }
     return current;
+}
+
+int main() {
+    list *head = NULL;
+    head = insertAtFirst(head, 5);
+    head = insertAtTail(head, 6);
+    head = insertAtTail(head, 6);
+    head = insertAtTail(head, 4);
+    head = insertAtTail(head, 3);
+    head = insertAtTail(head, 1);
+    printList(head);
+
+    printf("delete 6:\n");
+    head = deleteFromList(head, 6);
+    printList(head);
+    printf("delete 4:\n");
+    head = deleteFromList(head, 4);
+    printList(head);
+    printf("delete 1:\n");
+    head = deleteFromList(head, 1);
+    printList(head);
+
 }
