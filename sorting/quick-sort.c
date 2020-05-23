@@ -21,9 +21,14 @@ void swap(int *a, int *b) {
 }
 
 int partition(int *a, int first, int last, int n) {
-    // (1) We choose a pivot element (for now we pick first)
+    // (1) We choose a random pivot
+    srand(time(NULL));
+    int random_pivot = rand() % (last+1-first) + first;
+    // otherwise could choose just the first element
+
     // (2) We put the pivot element at the end of the array
-    swap(&a[first], &a[last]);
+    swap(&a[random_pivot], &a[last]);
+
     // (3) our pivot pointer is now pointing at the last element of the array
     int pivot = last;
 
