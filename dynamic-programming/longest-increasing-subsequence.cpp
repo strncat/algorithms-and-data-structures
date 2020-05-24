@@ -113,9 +113,6 @@ int longest_increasing_subsequence_fast_parent(int *a, int n) { // O(nlogn)
 
 
 int main() {
-    //clock_t begin, end;
-    //double time_spent;
-    //begin = clock();
     int n, a[MAX];
     freopen("in.txt" , "r" , stdin);
     //freopen("out.txt" , "w" , stdout);
@@ -127,8 +124,4 @@ int main() {
     printf("%d\n", longest_increasing_subsequence(a, n));
     printf("%d\n", longest_increasing_subsequence_fast(a, n));
     printf("%d\n", longest_increasing_subsequence_fast_parent(a, n));
-
-    //end = clock();
-    //time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    //printf("%f", time_spent);
 }
